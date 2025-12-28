@@ -14,7 +14,9 @@ def emot_detector():
     Call to NLP tools
     """
     result = emotion_detector(request.args.get("textToAnalyze"))
-    if result.get('dominant_emotion'):
+    if result.get('dominant_emotion') is None:
+        return "Invalid input ! Try again."
+    else:
         response_text = "For the given statement, the system response is "
         response_text += f"'anger': {result.get('anger')}, "
         response_text += f"'disgust': {result.get('disgust')}, "
@@ -24,7 +26,7 @@ def emot_detector():
         response_text += f"The dominant emotion is <b>{result.get('dominant_emotion')}</b>."
     
         return response_text
-    return "Invalid input ! Try again."
+
 
 @app.route("/")
 def render_index_page():
